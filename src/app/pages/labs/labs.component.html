@@ -2,17 +2,17 @@
     <p>labs works!</p>
     <h1>Hola</h1>
     <h2>{{ saludo }}</h2>
-    <img [src]="persona.avatar" alt="">
+    <img [src]="persona().avatar" alt="">
     <hr />
     <button (click)="clickHandler()">Click Me!</button>
     <button (dblclick)="clickHandler()">Click Me!</button>
     <hr />
     <p>(change)</p>
-    <input type="number" [value]="persona.edad" (change)="changeHandler($event)">
+    <input type="number" [value]="persona().edad" (change)="changeHandler($event)">
     <p>(keydown)</p>
-    <input type="text" [value]="persona.nombre" (keydown)="keyDownHandler($event)">
+    <input type="text" [value]="persona().nombre" (keydown)="keyDownHandler($event)">
     <p>(keydown)</p>
-    <input type="text" [value]="persona.nombre" (keydown.shift.t)="clickHandler()">
+    <input type="text" [value]="persona().nombre" (keydown.shift.t)="clickHandler()">
     <hr />
     <p>Signal</p>
     <input type="text" [value]="name()" (change)="changeHandler($event)">
@@ -26,5 +26,33 @@
         {{ i + 1 }} - {{ task }}
       </li>
     </ul>
+
+    <hr />
+    <div *ngIf="name() === 'Alejandro'">
+      My content
+    </div>
+
+    <pre>
+      <code>
+          {{ persona() | json}}
+      </code>
+    </pre>
+
+    <hr />
+    <div *ngIf="persona().nombre === 'Alejandro' && persona().edad > 18; else elseBlock">
+      Sí se cumple la condición.
+    </div>
+    <ng-template #elseBlock>
+      No se cumple la condición.
+    </ng-template>
+    <p>nombre</p>
+    <input type="string" [value]="persona().nombre" (change)="changeName($event)">
+    <p>edad</p>
+    <input type="number" [value]="persona().edad" (change)="changeAge($event)">
+
+    <hr />
+    <input type="color" [formControl]="colorCtrl">
+    <p>color: {{ colorCtrl.value }}</p>
+
   </div>
   

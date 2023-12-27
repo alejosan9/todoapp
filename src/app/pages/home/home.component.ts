@@ -1,12 +1,13 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 
 import { Task } from '../../models/task.model';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
@@ -24,11 +25,19 @@ export class HomeComponent {
     }
   ]);
 
-  changeHandler(event: Event){
-    const input = event.target as HTMLInputElement;
-    const newTask = input.value;
-    this.addTask(newTask);
-    input.value = '';
+  newTaskControl = new FormControl('', {
+    nonNullable: true,
+    validators: [
+      Validators.required
+    ]
+  });
+
+  changeHandler(){
+    if (this.newTaskControl.valid){
+      const value = this.newTaskControl.value.trim();
+      this.addTask(value);
+      this.newTaskControl.setValue('');
+    }
   }
 
   addTask(title: string){
@@ -37,7 +46,7 @@ export class HomeComponent {
       title,
       completed: false
     };
-    this.tasks.update((tasks) => [...tasks, newTask]);
+    this.tasks.update(tasks => [...tasks, newTask]);
   }
 
   updateTask(index: number) {
@@ -57,5 +66,7 @@ export class HomeComponent {
   deleteTask(index: number){
     this.tasks.update((tasks) => tasks.filter((task, position) => position !== index))
   }
+
+
 
 }

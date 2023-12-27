@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-labs',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './labs.component.html',
   styleUrl: './labs.component.css'
 })
@@ -18,11 +19,11 @@ export class LabsComponent {
 
   // Ejemplo con objetos
 
-  persona = {
+  persona = signal({
     nombre: 'Alejo',
-    edad: 9,
+    edad: 19,
     avatar: 'https://w3schools.com/howto/img_avatar.png'
-  }
+  })
 
   // Eventos
 
@@ -55,4 +56,37 @@ export class LabsComponent {
     'Paso 3'
   ]);
 
+  changeName(event:Event){
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value;
+    this.persona.update(prevState => {
+      return {
+        ...prevState,
+        nombre: newValue
+      }
+    })
+  }
+
+
+
+  changeAge(event: Event){
+    const input = event.target as HTMLInputElement;
+    const newValue = input.value;
+    this.persona.update(prevState => {
+      return{
+        ...prevState, 
+        edad: parseInt(newValue)
+      }
+    })
+  }
+
+  // ReactiveForm
+
+  colorCtrl = new FormControl();
+
+  constructor(){
+    this.colorCtrl.valueChanges.subscribe(value => {
+      console.log(value);
+    })
+  }
 }
