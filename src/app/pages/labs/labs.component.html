@@ -1,0 +1,30 @@
+<div class="container">
+    <p>labs works!</p>
+    <h1>Hola</h1>
+    <h2>{{ saludo }}</h2>
+    <img [src]="persona.avatar" alt="">
+    <hr />
+    <button (click)="clickHandler()">Click Me!</button>
+    <button (dblclick)="clickHandler()">Click Me!</button>
+    <hr />
+    <p>(change)</p>
+    <input type="number" [value]="persona.edad" (change)="changeHandler($event)">
+    <p>(keydown)</p>
+    <input type="text" [value]="persona.nombre" (keydown)="keyDownHandler($event)">
+    <p>(keydown)</p>
+    <input type="text" [value]="persona.nombre" (keydown.shift.t)="clickHandler()">
+    <hr />
+    <p>Signal</p>
+    <input type="text" [value]="name()" (change)="changeHandler($event)">
+    
+    <hr />
+    <h1>Nombre: {{ name() }}</h1>
+    <p>Directivas</p>
+    <p>Total: {{ tasks_directivas().length }}</p>
+    <ul>
+      <li *ngFor="let task of tasks_directivas(); index as i">
+        {{ i + 1 }} - {{ task }}
+      </li>
+    </ul>
+  </div>
+  
